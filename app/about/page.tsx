@@ -102,12 +102,12 @@ export default function AboutPage() {
                 </div>
               </div>
 
-              <div className="relative rounded-2xl overflow-hidden aspect-[4/3]">
+              <div className="relative rounded-2xl overflow-hidden aspect-[4/3] bg-white">
                 <Image
                   src="/images/about-team.jpg"
                   alt="AAMAC Technology AV installation team"
                   fill
-                  className="object-cover"
+                  className="object-contain p-6"
                 />
               </div>
             </div>

@@ -15,7 +15,6 @@ export default async function Footer() {
   const settings = await getSettings()
   const phone = settings?.contact?.phone || '+965 6614 0614'
   const email = settings?.contact?.email || 'sales@aamactech.com'
-  const email2 = settings?.contact?.email2 || ''
   const address = settings?.contact?.address || 'Awtad Tower, Qibla, Kuwait City'
   return (
     <footer className="bg-[#0A0A0A] text-white">
@@ -96,16 +95,9 @@ export default async function Footer() {
               </li>
               <li className="flex items-start gap-3">
                 <Mail size={15} className="text-[#1652F0] mt-0.5 shrink-0" />
-                <div className="flex flex-col gap-1">
-                  <a href={`mailto:${email}`} className="text-[#6B6B6B] text-sm hover:text-white transition-colors">
-                    {email}
-                  </a>
-                  {email2 && (
-                    <a href={`mailto:${email2}`} className="text-[#6B6B6B] text-sm hover:text-white transition-colors">
-                      {email2}
-                    </a>
-                  )}
-                </div>
+                <a href={`mailto:${email}`} className="text-[#6B6B6B] text-sm hover:text-white transition-colors">
+                  {email}
+                </a>
               </li>
               <li className="flex items-start gap-3">
                 <MapPin size={15} className="text-[#1652F0] mt-0.5 shrink-0" />

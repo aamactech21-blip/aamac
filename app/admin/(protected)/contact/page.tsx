@@ -8,7 +8,6 @@ export default function ContactPage() {
   const [settingsId, setSettingsId] = useState<string | null>(null)
   const [phone, setPhone] = useState('')
   const [email, setEmail] = useState('')
-  const [email2, setEmail2] = useState('')
   const [address, setAddress] = useState('')
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
@@ -27,7 +26,6 @@ export default function ContactPage() {
           setSettingsId(data._id)
           setPhone(data.contact?.phone ?? '')
           setEmail(data.contact?.email ?? '')
-          setEmail2(data.contact?.email2 ?? '')
           setAddress(data.contact?.address ?? '')
         }
       })
@@ -38,7 +36,7 @@ export default function ContactPage() {
   async function handleSave() {
     setSaving(true)
     try {
-      const body = { id: settingsId, phone, email, email2, address }
+      const body = { id: settingsId, phone, email, address }
       const method = settingsId ? 'PUT' : 'POST'
       const res = await fetch('/api/contact', {
         method,
@@ -107,19 +105,6 @@ export default function ContactPage() {
               />
             </div>
 
-            {/* Email 2 */}
-            <div>
-              <label className="flex items-center gap-2 text-sm font-semibold text-[#0A0A0A] mb-2">
-                <Mail className="w-4 h-4 text-[#1652F0]" /> Email Address 2
-              </label>
-              <input
-                type="email"
-                value={email2}
-                onChange={e => setEmail2(e.target.value)}
-                placeholder="sales@aamactech.com"
-                className="w-full px-4 py-3 text-base border-2 border-[#E5E3DC] rounded-xl focus:outline-none focus:border-[#1652F0] transition-colors"
-              />
-            </div>
 
             {/* Address */}
             <div>

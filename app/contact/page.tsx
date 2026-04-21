@@ -29,7 +29,6 @@ export default async function ContactPage() {
   const settings = await getSettings()
   const phone = settings?.contact?.phone || '+965 6614 0614'
   const email = settings?.contact?.email || 'sales@aamactech.com'
-  const email2 = settings?.contact?.email2 || ''
   const address = settings?.contact?.address || 'Awtad Tower, Qibla, Kuwait City'
   const mapSrc = `https://maps.google.com/maps?q=${encodeURIComponent(address)}&output=embed&z=15`
 
@@ -64,7 +63,6 @@ export default async function ContactPage() {
                   {[
                     { icon: Phone, label: 'Phone', value: phone, href: `tel:${phone.replace(/\s/g, '')}` },
                     { icon: Mail, label: 'Email', value: email, href: `mailto:${email}` },
-                    ...(email2 ? [{ icon: Mail, label: 'Email 2', value: email2, href: `mailto:${email2}` }] : []),
                     { icon: MapPin, label: 'Address', value: address, href: `https://maps.google.com/?q=${encodeURIComponent(address)}` },
                     { icon: Clock, label: 'Hours', value: 'Sun–Thu, 8:00 AM – 5:00 PM', href: null },
                   ].map((item) => {
