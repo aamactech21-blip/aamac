@@ -64,7 +64,7 @@ export default async function ContactPage() {
                     { icon: Phone, label: 'Phone', value: phone, href: `tel:${phone.replace(/\s/g, '')}` },
                     { icon: Mail, label: 'Email', value: email, href: `mailto:${email}` },
                     { icon: MapPin, label: 'Address', value: address, href: `https://maps.google.com/?q=${encodeURIComponent(address)}` },
-                    { icon: Clock, label: 'Hours', value: 'Sun–Thu, 8:00 AM – 5:00 PM', href: null },
+                    { icon: Clock, label: 'Hours', value: 'Sun–Thu, 8:00 AM – 2:00 PM', href: null },
                   ].map((item) => {
                     const Icon = item.icon
                     return (

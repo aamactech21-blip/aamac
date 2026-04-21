@@ -105,7 +105,7 @@ export default async function Footer() {
               </li>
               <li className="flex items-start gap-3">
                 <Clock size={15} className="text-[#1652F0] mt-0.5 shrink-0" />
-                <span className="text-[#6B6B6B] text-sm">Sun–Thu, 8:00 AM – 5:00 PM</span>
+                <span className="text-[#6B6B6B] text-sm">Sun–Thu, 8:00 AM – 2:00 PM</span>
               </li>
             </ul>
           </div>
