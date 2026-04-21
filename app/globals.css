@@ -1,0 +1,124 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  /* AAMAC Brand Colors */
+  --color-primary-dark: #0A0A0A;
+  --color-secondary-dark: #1A1A1A;
+  --color-section-bg: #F6F5F2;
+  --color-border-brand: #E5E3DC;
+  --color-muted-text: #6B6B6B;
+  --color-accent-av: #1652F0;
+  --color-accent-products: #E63946;
+  --color-accent-tertiary: #7CB518;
+  --color-whatsapp: #25D366;
+
+  /* Semantic tokens */
+  --background: #FFFFFF;
+  --foreground: #0A0A0A;
+  --card: #FFFFFF;
+  --card-foreground: #0A0A0A;
+  --popover: #FFFFFF;
+  --popover-foreground: #0A0A0A;
+  --primary: #0A0A0A;
+  --primary-foreground: #FFFFFF;
+  --secondary: #F6F5F2;
+  --secondary-foreground: #0A0A0A;
+  --muted: #F6F5F2;
+  --muted-foreground: #6B6B6B;
+  --accent: #1652F0;
+  --accent-foreground: #FFFFFF;
+  --destructive: #E63946;
+  --destructive-foreground: #FFFFFF;
+  --border: #E5E3DC;
+  --input: #E5E3DC;
+  --ring: #1652F0;
+  --radius: 0.75rem;
+
+  /* Chart colors */
+  --chart-1: #1652F0;
+  --chart-2: #E63946;
+  --chart-3: #7CB518;
+  --chart-4: #25D366;
+  --chart-5: #0A0A0A;
+}
+
+@theme inline {
+  --font-sans: 'Manrope', sans-serif;
+  --font-serif: 'Instrument Serif', serif;
+  --font-mono: 'Geist Mono', monospace;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 8px);
+
+  /* Brand-specific color utilities */
+  --color-primary-dark: var(--color-primary-dark);
+  --color-secondary-dark: var(--color-secondary-dark);
+  --color-section-bg: var(--color-section-bg);
+  --color-border-brand: var(--color-border-brand);
+  --color-muted-text: var(--color-muted-text);
+  --color-accent-av: var(--color-accent-av);
+  --color-accent-products: var(--color-accent-products);
+  --color-accent-tertiary: var(--color-accent-tertiary);
+  --color-whatsapp: var(--color-whatsapp);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground font-sans;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-sans font-bold;
+  }
+}
+
+@layer utilities {
+  .font-accent-italic {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+  }
+  .text-balance {
+    text-wrap: balance;
+  }
+  .text-pretty {
+    text-wrap: pretty;
+  }
+  .animate-fade-in {
+    animation: fadeIn 0.6s ease-out forwards;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+}
