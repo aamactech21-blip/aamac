@@ -28,11 +28,13 @@ export const metadata: Metadata = {
     siteName: 'AAMAC Technology',
     locale: 'en_US',
     type: 'website',
+    images: [{ url: 'https://aamactech.com/images/hero-bg.jpg', width: 1200, height: 630, alt: 'AAMAC Technology' }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'AAMAC Technology | AV & Low-Voltage Integration Kuwait',
     description: 'From boardrooms to broadcast studios — elegant AV and electrical solutions across Kuwait.',
+    images: ['https://aamactech.com/images/hero-bg.jpg'],
   },
   icons: {
     icon: '/favicon.ico',

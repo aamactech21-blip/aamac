@@ -24,10 +24,13 @@ export async function POST(request: Request) {
 
   const buffer = Buffer.from(await file.arrayBuffer())
 
-  const asset = await sanityWriteClient.assets.upload('image', buffer, {
-    filename: file.name,
-    contentType: file.type,
-  })
-
-  return NextResponse.json({ assetId: asset._id, url: asset.url })
+  try {
+    const asset = await sanityWriteClient.assets.upload('image', buffer, {
+      filename: file.name,
+      contentType: file.type,
+    })
+    return NextResponse.json({ assetId: asset._id, url: asset.url })
+  } catch {
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+  }
 }

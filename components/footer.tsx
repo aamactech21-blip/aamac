@@ -40,8 +40,9 @@ export default async function Footer() {
               {[
                 { label: 'Home', href: '/' },
                 { label: 'About Us', href: '/about' },
+                { label: 'Our Projects', href: '/projects' },
                 { label: 'Services', href: '/services' },
-                { label: 'Products', href: '/products' },
+                { label: 'Item for Sale', href: '/products' },
                 { label: 'Contact', href: '/contact' },
               ].map((link) => (
                 <li key={link.href}>

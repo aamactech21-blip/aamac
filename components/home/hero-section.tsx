@@ -49,7 +49,7 @@ export default function HeroSection() {
                 href="/products"
                 className="inline-flex items-center justify-center gap-2 border-2 border-white/30 text-white font-bold px-7 py-4 rounded-xl hover:bg-white hover:text-[#0A0A0A] transition-all duration-200 hover:-translate-y-0.5"
               >
-                Shop Products
+                Items for Sale
               </Link>
             </div>
 

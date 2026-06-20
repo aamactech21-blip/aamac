@@ -6,8 +6,8 @@ import { Plus, Pencil, Trash2, MessageCircle, X, Upload, Check, AlertTriangle, P
 import { type Product } from '@/lib/sanity'
 import { authHeaders } from '@/components/admin/auth-guard'
 
-type FormState = { name: string; description: string; imageFile: File | null; imagePreview: string; imageRef: string }
-const emptyForm = (): FormState => ({ name: '', description: '', imageFile: null, imagePreview: '', imageRef: '' })
+type FormState = { name: string; description: string; price: string; imageFile: File | null; imagePreview: string; imageRef: string }
+const emptyForm = (): FormState => ({ name: '', description: '', price: '', imageFile: null, imagePreview: '', imageRef: '' })
 
 export default function ProductsPage() {
   const [products, setProducts] = useState<Product[]>([])
@@ -51,7 +51,7 @@ export default function ProductsPage() {
 
   function openEdit(p: Product) {
     setEditingId(p._id)
-    setForm({ name: p.name, description: p.description, imageFile: null, imagePreview: p.imageUrl ?? '', imageRef: p.imageRef ?? '' })
+    setForm({ name: p.name, description: p.description, price: p.price ?? '', imageFile: null, imagePreview: p.imageUrl ?? '', imageRef: p.imageRef ?? '' })
     setModalOpen(true)
   }
 
@@ -89,7 +89,7 @@ export default function ProductsPage() {
     if (uploadingImage) { showToast('Please wait for the image to finish uploading', 'error'); return }
     setSaving(true)
 
-    const body = { name: form.name, description: form.description, imageRef: form.imageRef || null }
+    const body = { name: form.name, description: form.description, price: form.price || null, imageRef: form.imageRef || null }
 
     try {
       const res = editingId
@@ -193,7 +193,12 @@ export default function ProductsPage() {
               {/* Info */}
               <div className="p-5 flex flex-col flex-1 gap-3">
                 <div className="flex-1">
-                  <h3 className="font-bold text-[#0A0A0A] text-lg leading-tight">{p.name}</h3>
+                  <div className="flex items-start justify-between gap-2 mb-1">
+                    <h3 className="font-bold text-[#0A0A0A] text-lg leading-tight">{p.name}</h3>
+                    {p.price && (
+                      <span className="shrink-0 bg-[#E63946]/10 text-[#E63946] text-xs font-bold px-2.5 py-1 rounded-lg">{p.price}</span>
+                    )}
+                  </div>
                   {p.description && (
                     <p className="text-[#6B6B6B] text-sm mt-1 line-clamp-2">{p.description}</p>
                   )}
@@ -268,6 +273,20 @@ export default function ProductsPage() {
                   rows={3}
                   placeholder="Short description of the product…"
                   className="w-full px-4 py-3 border-2 border-[#E5E3DC] rounded-xl focus:outline-none focus:border-[#1652F0] transition-colors text-base resize-none"
+                />
+              </div>
+
+              {/* Price */}
+              <div>
+                <label className="block text-sm font-semibold text-[#0A0A0A] mb-2">
+                  Price <span className="text-[#6B6B6B] font-normal">(optional)</span>
+                </label>
+                <input
+                  type="text"
+                  value={form.price}
+                  onChange={e => setForm(f => ({ ...f, price: e.target.value }))}
+                  placeholder="e.g. 999 KD"
+                  className="w-full px-4 py-3 border-2 border-[#E5E3DC] rounded-xl focus:outline-none focus:border-[#1652F0] transition-colors text-base"
                 />
               </div>
 

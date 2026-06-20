@@ -68,7 +68,7 @@ export default async function ServicesPage() {
                 <div className={`grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center`}>
                   <div className={idx % 2 === 1 ? 'lg:order-2' : ''}>
                     <span className="text-[#1652F0] text-xs font-bold uppercase tracking-widest mb-3 block">
-                      0{idx + 1}
+                      {String(idx + 1).padStart(2, '0')}
                     </span>
                     <h2 className="text-3xl md:text-4xl font-extrabold text-[#0A0A0A] text-balance mb-5">
                       {service.title}

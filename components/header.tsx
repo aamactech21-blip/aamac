@@ -9,8 +9,9 @@ import { Menu, X } from 'lucide-react'
 const navLinks = [
   { label: 'Home', href: '/' },
   { label: 'About', href: '/about' },
+  { label: 'Our Projects', href: '/projects' },
   { label: 'Services', href: '/services' },
-  { label: 'Products', href: '/products' },
+  { label: 'Item for Sale', href: '/products' },
   { label: 'Contact', href: '/contact' },
 ]
 
@@ -64,12 +65,6 @@ export default function Header() {
                 />
               </Link>
             ))}
-            <Link
-              href="/contact"
-              className="bg-[#0A0A0A] text-white text-sm font-semibold px-5 py-2.5 rounded-xl hover:bg-[#1A1A1A] transition-colors duration-200"
-            >
-              Contact
-            </Link>
           </nav>
 
           {/* Mobile toggle */}
@@ -100,12 +95,6 @@ export default function Header() {
                 {link.label}
               </Link>
             ))}
-            <Link
-              href="/contact"
-              className="mt-3 bg-[#0A0A0A] text-white text-sm font-semibold px-5 py-3 rounded-xl text-center hover:bg-[#1A1A1A] transition-colors"
-            >
-              Contact
-            </Link>
           </nav>
         </div>
       )}

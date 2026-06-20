@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server'
 import { sanityWriteClient, verifyAdminToken } from '@/lib/sanity-server'
-import { sanityClient } from '@/lib/sanity'
 
 export async function PUT(request: Request) {
   if (!verifyAdminToken(request)) {
@@ -11,14 +10,18 @@ export async function PUT(request: Request) {
 
   if (!id) return NextResponse.json({ error: 'Service id required' }, { status: 400 })
 
-  const patch = sanityWriteClient.patch(id).set({ title: title?.trim() ?? '', description: description?.trim() ?? '' })
+  try {
+    const patch = sanityWriteClient.patch(id).set({ title: title?.trim() ?? '', description: description?.trim() ?? '' })
 
-  if (imageRef) {
-    patch.set({ image: { _type: 'image', asset: { _type: 'reference', _ref: imageRef } } })
+    if (imageRef) {
+      patch.set({ image: { _type: 'image', asset: { _type: 'reference', _ref: imageRef } } })
+    }
+
+    const updated = await patch.commit()
+    return NextResponse.json(updated)
+  } catch {
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
   }
-
-  const updated = await patch.commit()
-  return NextResponse.json(updated)
 }
 
 export async function POST(request: Request) {
@@ -34,6 +37,10 @@ export async function POST(request: Request) {
     doc.image = { _type: 'image', asset: { _type: 'reference', _ref: imageRef } }
   }
 
-  const created = await sanityWriteClient.create(doc)
-  return NextResponse.json(created, { status: 201 })
+  try {
+    const created = await sanityWriteClient.create(doc)
+    return NextResponse.json(created, { status: 201 })
+  } catch {
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+  }
 }

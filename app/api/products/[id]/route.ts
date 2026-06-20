@@ -7,22 +7,26 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
   }
 
   const { id } = await params
-  const { name, description, imageRef } = await request.json()
+  const { name, description, price, imageRef } = await request.json()
 
   if (!name?.trim()) {
     return NextResponse.json({ error: 'Name is required' }, { status: 400 })
   }
 
-  const patch = sanityWriteClient
-    .patch(id)
-    .set({ name: name.trim(), description: description?.trim() ?? '' })
+  try {
+    const patch = sanityWriteClient
+      .patch(id)
+      .set({ name: name.trim(), description: description?.trim() ?? '', price: price?.trim() || null })
 
-  if (imageRef) {
-    patch.set({ image: { _type: 'image', asset: { _type: 'reference', _ref: imageRef } } })
+    if (imageRef) {
+      patch.set({ image: { _type: 'image', asset: { _type: 'reference', _ref: imageRef } } })
+    }
+
+    const updated = await patch.commit()
+    return NextResponse.json(updated)
+  } catch {
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
   }
-
-  const updated = await patch.commit()
-  return NextResponse.json(updated)
 }
 
 export async function DELETE(request: Request, { params }: { params: Promise<{ id: string }> }) {
@@ -31,6 +35,10 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
   }
 
   const { id } = await params
-  await sanityWriteClient.delete(id)
-  return NextResponse.json({ ok: true })
+  try {
+    await sanityWriteClient.delete(id)
+    return NextResponse.json({ ok: true })
+  } catch {
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+  }
 }
