@@ -58,10 +58,7 @@ export default function HeroSection() {
               <span className="text-xs text-white/40 uppercase font-semibold tracking-wider">Certified by</span>
               <div className="flex items-center gap-3">
                 <span className="bg-white/10 border border-white/20 text-white text-xs font-bold px-3 py-1.5 rounded-lg">
-                  Crestron
-                </span>
-                <span className="bg-white/10 border border-white/20 text-white text-xs font-bold px-3 py-1.5 rounded-lg">
-                  Extron
+                  Brahler Certified
                 </span>
               </div>
             </div>
