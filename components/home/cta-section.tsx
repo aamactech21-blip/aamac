@@ -4,15 +4,15 @@ const WA_URL = `https://wa.me/${WA_NUMBER}?text=${WA_MESSAGE}`
 
 export default function CtaSection() {
   return (
-    <section className="bg-[#0A0A0A] py-24">
+    <section className="bg-[#1652F0] py-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <p className="text-[#6B6B6B] text-sm uppercase font-semibold tracking-widest mb-4">
+        <p className="text-white/60 text-sm uppercase font-semibold tracking-widest mb-4">
           Get in Touch
         </p>
         <h2 className="text-4xl md:text-6xl font-extrabold text-white text-balance mb-6">
           Have a project in mind?
         </h2>
-        <p className="text-[#6B6B6B] text-lg leading-relaxed max-w-xl mx-auto mb-10">
+        <p className="text-white/70 text-lg leading-relaxed max-w-xl mx-auto mb-10">
           Tell us about your space and we will design the right system for you. Our team responds fast.
         </p>
         <a
