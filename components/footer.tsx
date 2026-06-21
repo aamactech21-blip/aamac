@@ -132,11 +132,7 @@ export default async function Footer() {
           <div className="flex items-center gap-2">
             <span className="inline-flex items-center gap-1.5 bg-[#1A1A1A] text-[#6B6B6B] text-xs px-3 py-1.5 rounded-full">
               <span className="w-1.5 h-1.5 bg-[#7CB518] rounded-full inline-block" />
-              Crestron Certified
-            </span>
-            <span className="inline-flex items-center gap-1.5 bg-[#1A1A1A] text-[#6B6B6B] text-xs px-3 py-1.5 rounded-full">
-              <span className="w-1.5 h-1.5 bg-[#7CB518] rounded-full inline-block" />
-              Extron Authorized
+              Brahler Certified
             </span>
           </div>
         </div>
