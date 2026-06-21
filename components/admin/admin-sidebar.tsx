@@ -9,11 +9,13 @@ import {
   Phone,
   AlignLeft,
   LogOut,
+  FolderOpen,
 } from 'lucide-react'
 
 const NAV = [
   { href: '/admin/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-  { href: '/admin/products', label: 'Products', icon: Package },
+  { href: '/admin/projects', label: 'Our Projects', icon: FolderOpen },
+  { href: '/admin/products', label: 'Items for Sale', icon: Package },
   { href: '/admin/services', label: 'Services', icon: Wrench },
   { href: '/admin/contact', label: 'Contact Info', icon: Phone },
   { href: '/admin/footer', label: 'Footer', icon: AlignLeft },

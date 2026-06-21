@@ -31,7 +31,7 @@ export async function POST(request: Request) {
 
   const { title, description, imageRef } = await request.json()
 
-  const doc: Record<string, unknown> = { _type: 'service', title: title?.trim() ?? '', description: description?.trim() ?? '' }
+  const doc: { _type: string; [key: string]: unknown } = { _type: 'service', title: title?.trim() ?? '', description: description?.trim() ?? '' }
 
   if (imageRef) {
     doc.image = { _type: 'image', asset: { _type: 'reference', _ref: imageRef } }

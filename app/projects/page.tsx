@@ -4,23 +4,47 @@ import Link from 'next/link'
 import Header from '@/components/header'
 import Footer from '@/components/footer'
 import FloatingWhatsApp from '@/components/floating-whatsapp'
-import { CheckCircle, ArrowRight, Users, Mic, Wrench, BookOpen, LayoutGrid } from 'lucide-react'
+import { CheckCircle, ArrowRight, MapPin, Building2, FolderOpen } from 'lucide-react'
+import { sanityWriteClient } from '@/lib/sanity-server'
 
 export const metadata: Metadata = {
   title: 'Our Projects | AAMAC Technology',
   description:
-    'Explore AAMAC Technology\'s delivered AV and communication projects across Kuwait — including government, corporate, and institutional installations.',
+    "Explore AAMAC Technology's delivered AV and communication projects across Kuwait — government, corporate, and institutional installations.",
 }
 
-const servicesDelivered = [
-  { icon: Mic, label: 'Audio Visual System Operation' },
-  { icon: Users, label: 'Technical Staff Training' },
-  { icon: LayoutGrid, label: 'AV Equipment Management' },
-  { icon: Wrench, label: 'Operational Support' },
-  { icon: BookOpen, label: 'Knowledge Transfer' },
-]
+export const revalidate = 60
 
-export default function ProjectsPage() {
+type Project = {
+  _id: string
+  name: string
+  client: string
+  sector: string
+  location: string
+  projectType: string
+  description: string
+  servicesDelivered: string[]
+  outcome: string
+  imageUrl: string | null
+}
+
+async function getProjects(): Promise<Project[]> {
+  try {
+    return await sanityWriteClient.fetch(
+      `*[_type == "project"] | order(_createdAt desc) {
+        _id, name, client, sector, location, projectType,
+        description, servicesDelivered, outcome,
+        "imageUrl": image.asset->url
+      }`
+    )
+  } catch {
+    return []
+  }
+}
+
+export default async function ProjectsPage() {
+  const projects = await getProjects()
+
   return (
     <>
       <Header />
@@ -29,9 +53,7 @@ export default function ProjectsPage() {
         <section className="bg-[#0A0A0A] py-24">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="max-w-3xl">
-              <p className="text-[#6B6B6B] text-sm uppercase font-semibold tracking-widest mb-4">
-                Portfolio
-              </p>
+              <p className="text-[#6B6B6B] text-sm uppercase font-semibold tracking-widest mb-4">Portfolio</p>
               <h1 className="text-5xl md:text-6xl font-extrabold text-white leading-tight text-balance mb-6">
                 Our{' '}
                 <span className="font-accent-italic text-[#1652F0]">Projects</span>
@@ -43,111 +65,153 @@ export default function ProjectsPage() {
           </div>
         </section>
 
-        {/* Featured Project */}
+        {/* Projects */}
         <section className="bg-white py-24">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="mb-12">
-              <p className="text-[#6B6B6B] text-sm uppercase font-semibold tracking-widest mb-3">
-                Featured Project
-              </p>
-              <h2 className="text-3xl md:text-4xl font-extrabold text-[#0A0A0A] text-balance">
-                Municipal Council Hall Audio Visual Operations &amp; Training
-              </h2>
-            </div>
+            {projects.length === 0 ? (
+              /* Empty state */
+              <div className="text-center py-24 bg-[#F6F5F2] rounded-2xl">
+                <FolderOpen size={56} className="text-[#E5E3DC] mx-auto mb-5" strokeWidth={1.5} />
+                <h2 className="text-xl font-bold text-[#0A0A0A] mb-2">No projects yet</h2>
+                <p className="text-[#6B6B6B] mb-6">Check back soon — we are updating our portfolio.</p>
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center gap-2 bg-[#1652F0] text-white font-bold px-7 py-3.5 rounded-xl hover:bg-[#1245d6] transition-all"
+                >
+                  Discuss Your Project
+                  <ArrowRight size={16} />
+                </Link>
+              </div>
+            ) : (
+              <div className="flex flex-col gap-24">
+                {projects.map((project, idx) => (
+                  <article key={project._id}>
+                    {/* Label */}
+                    <div className="mb-8">
+                      <p className="text-[#6B6B6B] text-sm uppercase font-semibold tracking-widest mb-2">
+                        {idx === 0 ? 'Featured Project' : `Project ${String(idx + 1).padStart(2, '0')}`}
+                      </p>
+                      <h2 className="text-3xl md:text-4xl font-extrabold text-[#0A0A0A] text-balance">
+                        {project.name}
+                      </h2>
+                    </div>
 
-            {/* Project Image */}
-            <div className="relative w-full aspect-video rounded-2xl overflow-hidden bg-[#0A0A0A] mb-12">
-              <Image
-                src="/images/municipal-council-hall.jpg"
-                alt="Kuwait Municipal Council Hall AV System"
-                fill
-                className="object-cover"
-                priority
-              />
-            </div>
-
-            {/* Details Grid */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-              {/* Project Info Card */}
-              <div className="lg:col-span-2 flex flex-col gap-8">
-                {/* Description */}
-                <div className="bg-[#F6F5F2] rounded-2xl p-8">
-                  <h3 className="text-[#0A0A0A] font-bold text-lg mb-4">Project Overview</h3>
-                  <p className="text-[#6B6B6B] text-base leading-relaxed">
-                    AAMAC Technology successfully delivered audio-visual operation support for the main Municipal Council Hall in Kuwait. The project included operating the hall&apos;s AV systems and training Kuwait Municipality&apos;s technical staff on proper operation and management of the council hall&apos;s AV infrastructure.
-                  </p>
-                </div>
-
-                {/* Services Delivered */}
-                <div className="bg-[#F6F5F2] rounded-2xl p-8">
-                  <h3 className="text-[#0A0A0A] font-bold text-lg mb-6">Services Delivered</h3>
-                  <ul className="flex flex-col gap-4">
-                    {servicesDelivered.map(({ icon: Icon, label }) => (
-                      <li key={label} className="flex items-center gap-4">
-                        <div className="w-9 h-9 bg-[#1652F0]/10 rounded-xl flex items-center justify-center shrink-0">
-                          <Icon size={17} className="text-[#1652F0]" />
+                    {/* Project Image */}
+                    {project.imageUrl ? (
+                      <div className="relative w-full aspect-video rounded-2xl overflow-hidden bg-[#0A0A0A] mb-10">
+                        <Image
+                          src={project.imageUrl}
+                          alt={project.name}
+                          fill
+                          className="object-cover"
+                          priority={idx === 0}
+                        />
+                      </div>
+                    ) : (
+                      <div className="w-full aspect-video rounded-2xl bg-gradient-to-br from-[#0A0A0A] via-[#111827] to-[#0F1F4D] mb-10 flex items-center justify-center">
+                        <div className="text-center">
+                          <div className="w-16 h-16 bg-[#1652F0]/20 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                            <Building2 size={32} className="text-[#1652F0]" />
+                          </div>
+                          <p className="text-white font-bold">{project.name}</p>
+                          {project.client && <p className="text-[#6B6B6B] text-sm mt-1">{project.client}</p>}
                         </div>
-                        <span className="text-[#0A0A0A] font-semibold text-sm">{label}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+                      </div>
+                    )}
 
-                {/* Outcome */}
-                <div className="bg-[#0A0A0A] rounded-2xl p-8">
-                  <h3 className="text-white font-bold text-lg mb-4">Project Outcome</h3>
-                  <p className="text-[#6B6B6B] text-base leading-relaxed mb-6">
-                    Kuwait Municipality&apos;s technical team was fully trained and equipped to independently operate and manage the council hall&apos;s AV infrastructure. AAMAC Technology ensured seamless day-to-day AV operations throughout the engagement, maintaining the highest standards of performance and reliability in a high-profile government setting.
-                  </p>
-                  <div className="flex flex-col sm:flex-row gap-3">
-                    {['Seamless AV Operations', 'Trained In-House Team', 'Government-Grade Reliability'].map((point) => (
-                      <span key={point} className="inline-flex items-center gap-2 bg-[#1A1A1A] text-[#6B6B6B] text-xs font-semibold px-4 py-2 rounded-full">
-                        <CheckCircle size={13} className="text-[#1652F0] shrink-0" />
-                        {point}
-                      </span>
-                    ))}
-                  </div>
-                </div>
+                    {/* Details Grid */}
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                      <div className="lg:col-span-2 flex flex-col gap-6">
+                        {/* Description */}
+                        {project.description && (
+                          <div className="bg-[#F6F5F2] rounded-2xl p-8">
+                            <h3 className="text-[#0A0A0A] font-bold text-lg mb-4">Project Overview</h3>
+                            <p className="text-[#6B6B6B] text-base leading-relaxed">{project.description}</p>
+                          </div>
+                        )}
+
+                        {/* Services Delivered */}
+                        {project.servicesDelivered?.length > 0 && (
+                          <div className="bg-[#F6F5F2] rounded-2xl p-8">
+                            <h3 className="text-[#0A0A0A] font-bold text-lg mb-5">Services Delivered</h3>
+                            <ul className="flex flex-col gap-3">
+                              {project.servicesDelivered.map((service) => (
+                                <li key={service} className="flex items-center gap-3">
+                                  <CheckCircle size={17} className="text-[#1652F0] shrink-0" />
+                                  <span className="text-[#0A0A0A] font-semibold text-sm">{service}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+
+                        {/* Outcome */}
+                        {project.outcome && (
+                          <div className="bg-[#0A0A0A] rounded-2xl p-8">
+                            <h3 className="text-white font-bold text-lg mb-4">Project Outcome</h3>
+                            <p className="text-[#6B6B6B] text-base leading-relaxed">{project.outcome}</p>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Project Details Sidebar */}
+                      <div>
+                        <div className="bg-[#F6F5F2] rounded-2xl p-8 sticky top-28">
+                          <h3 className="text-[#0A0A0A] font-bold text-lg mb-6">Project Details</h3>
+                          <ul className="flex flex-col gap-5">
+                            {project.client && (
+                              <li>
+                                <p className="text-[#6B6B6B] text-xs uppercase font-semibold tracking-widest mb-1">Client</p>
+                                <p className="text-[#0A0A0A] font-bold text-sm">{project.client}</p>
+                              </li>
+                            )}
+                            {project.sector && (
+                              <li>
+                                <p className="text-[#6B6B6B] text-xs uppercase font-semibold tracking-widest mb-1">Sector</p>
+                                <p className="text-[#0A0A0A] font-bold text-sm">{project.sector}</p>
+                              </li>
+                            )}
+                            {project.location && (
+                              <li>
+                                <p className="text-[#6B6B6B] text-xs uppercase font-semibold tracking-widest mb-1">Location</p>
+                                <div className="flex items-center gap-1.5">
+                                  <MapPin size={13} className="text-[#1652F0] shrink-0" />
+                                  <p className="text-[#0A0A0A] font-bold text-sm">{project.location}</p>
+                                </div>
+                              </li>
+                            )}
+                            {project.projectType && (
+                              <li>
+                                <p className="text-[#6B6B6B] text-xs uppercase font-semibold tracking-widest mb-1">Project Type</p>
+                                <p className="text-[#0A0A0A] font-bold text-sm">{project.projectType}</p>
+                              </li>
+                            )}
+                          </ul>
+
+                          <div className="mt-8 pt-6 border-t border-[#E5E3DC]">
+                            <p className="text-[#6B6B6B] text-sm leading-relaxed mb-5">
+                              Interested in a similar solution for your organisation?
+                            </p>
+                            <Link
+                              href="/contact"
+                              className="inline-flex items-center justify-center gap-2 w-full bg-[#1652F0] text-white font-bold text-sm px-5 py-3.5 rounded-xl hover:bg-[#1245d6] transition-all hover:-translate-y-0.5"
+                            >
+                              Discuss Your Project
+                              <ArrowRight size={15} />
+                            </Link>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Divider between projects */}
+                    {idx < projects.length - 1 && (
+                      <div className="mt-24 border-t border-[#E5E3DC]" />
+                    )}
+                  </article>
+                ))}
               </div>
-
-              {/* Client Card */}
-              <div className="flex flex-col gap-6">
-                <div className="bg-[#F6F5F2] rounded-2xl p-8 sticky top-28">
-                  <h3 className="text-[#0A0A0A] font-bold text-lg mb-6">Project Details</h3>
-                  <ul className="flex flex-col gap-5">
-                    <li>
-                      <p className="text-[#6B6B6B] text-xs uppercase font-semibold tracking-widest mb-1">Client</p>
-                      <p className="text-[#0A0A0A] font-bold text-sm">Kuwait Municipality</p>
-                    </li>
-                    <li>
-                      <p className="text-[#6B6B6B] text-xs uppercase font-semibold tracking-widest mb-1">Sector</p>
-                      <p className="text-[#0A0A0A] font-bold text-sm">Government</p>
-                    </li>
-                    <li>
-                      <p className="text-[#6B6B6B] text-xs uppercase font-semibold tracking-widest mb-1">Location</p>
-                      <p className="text-[#0A0A0A] font-bold text-sm">Kuwait City, Kuwait</p>
-                    </li>
-                    <li>
-                      <p className="text-[#6B6B6B] text-xs uppercase font-semibold tracking-widest mb-1">Project Type</p>
-                      <p className="text-[#0A0A0A] font-bold text-sm">AV Operations &amp; Training</p>
-                    </li>
-                  </ul>
-
-                  <div className="mt-8 pt-6 border-t border-[#E5E3DC]">
-                    <p className="text-[#6B6B6B] text-sm leading-relaxed mb-5">
-                      Interested in a similar solution for your organisation?
-                    </p>
-                    <Link
-                      href="/contact"
-                      className="inline-flex items-center justify-center gap-2 w-full bg-[#1652F0] text-white font-bold text-sm px-5 py-3.5 rounded-xl hover:bg-[#1245d6] transition-all hover:-translate-y-0.5"
-                    >
-                      Discuss Your Project
-                      <ArrowRight size={15} />
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            </div>
+            )}
           </div>
         </section>
 
@@ -155,15 +219,13 @@ export default function ProjectsPage() {
         <section className="bg-[#F6F5F2] py-20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="bg-[#0A0A0A] rounded-2xl p-12 text-center">
-              <p className="text-[#6B6B6B] text-sm uppercase font-semibold tracking-widest mb-4">
-                Work With Us
-              </p>
+              <p className="text-[#6B6B6B] text-sm uppercase font-semibold tracking-widest mb-4">Work With Us</p>
               <h2 className="text-3xl md:text-4xl font-extrabold text-white text-balance mb-5">
                 Ready to start your next{' '}
                 <span className="font-accent-italic text-[#1652F0]">AV project</span>?
               </h2>
               <p className="text-[#6B6B6B] text-base leading-relaxed max-w-xl mx-auto mb-10">
-                From government council halls to corporate boardrooms, AAMAC Technology delivers AV solutions built to last. Get in touch to discuss your requirements.
+                From government council halls to corporate boardrooms, AAMAC Technology delivers AV solutions built to last.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link

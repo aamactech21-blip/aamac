@@ -2,32 +2,42 @@
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { Package, Wrench, Phone, AlignLeft, ArrowRight } from 'lucide-react'
+import { Package, Wrench, Phone, AlignLeft, ArrowRight, FolderOpen } from 'lucide-react'
 
 export default function DashboardPage() {
   const [productCount, setProductCount] = useState<number | null>(null)
   const [serviceCount, setServiceCount] = useState<number | null>(null)
+  const [projectCount, setProjectCount] = useState<number | null>(null)
 
   useEffect(() => {
     fetch('/api/products/list').then(r => r.json()).then(d => setProductCount(d.length)).catch(() => setProductCount(0))
     fetch('/api/services/list').then(r => r.json()).then(d => setServiceCount(d.length)).catch(() => setServiceCount(0))
+    fetch('/api/projects/list').then(r => r.json()).then(d => setProjectCount(d.length)).catch(() => setProjectCount(0))
   }, [])
 
   const CARDS = [
     {
+      href: '/admin/projects',
+      icon: FolderOpen,
+      label: 'Our Projects',
+      count: projectCount,
+      color: 'bg-[#1652F0]',
+      desc: 'Add, edit, or remove projects',
+    },
+    {
       href: '/admin/products',
       icon: Package,
-      label: 'Products',
+      label: 'Items for Sale',
       count: productCount,
-      color: 'bg-[#1652F0]',
-      desc: 'Add, edit, or remove products',
+      color: 'bg-[#E63946]',
+      desc: 'Add, edit, or remove items',
     },
     {
       href: '/admin/services',
       icon: Wrench,
       label: 'Services',
       count: serviceCount,
-      color: 'bg-[#E63946]',
+      color: 'bg-[#7CB518]',
       desc: 'Update your service descriptions',
     },
     {
@@ -35,7 +45,7 @@ export default function DashboardPage() {
       icon: Phone,
       label: 'Contact Info',
       count: null,
-      color: 'bg-[#7CB518]',
+      color: 'bg-[#25D366]',
       desc: 'Update phone, email & address',
     },
     {

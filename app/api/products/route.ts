@@ -12,7 +12,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Name is required' }, { status: 400 })
   }
 
-  const doc: Record<string, unknown> = { _type: 'product', name: name.trim(), description: description?.trim() ?? '', price: price?.trim() || null }
+  const doc: { _type: string; [key: string]: unknown } = { _type: 'product', name: name.trim(), description: description?.trim() ?? '', price: price?.trim() || null }
 
   if (imageRef) {
     doc.image = { _type: 'image', asset: { _type: 'reference', _ref: imageRef } }
