@@ -57,9 +57,11 @@ export default function HeroSection() {
             <div className="flex items-center gap-4 mt-10">
               <span className="text-xs text-white/40 uppercase font-semibold tracking-wider">Certified by</span>
               <div className="flex items-center gap-3">
-                <span className="bg-white/10 border border-white/20 text-white text-xs font-bold px-3 py-1.5 rounded-lg">
-                  Brahler Certified
-                </span>
+                <img
+                  src="/images/brahler-systems-logo.jpg"
+                  alt="Brähler Systems Certified"
+                  className="h-8 w-auto object-contain rounded-lg opacity-90"
+                />
               </div>
             </div>
           </div>
@@ -99,7 +101,7 @@ export default function HeroSection() {
                 ].map(({ icon: Icon, label, desc, color }) => (
                   <li key={label} className="flex items-start gap-4">
                     <div
-                      className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
+                      className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
                       style={{ backgroundColor: `${color}1A` }}
                     >
                       <Icon size={18} style={{ color }} />
