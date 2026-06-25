@@ -89,7 +89,7 @@ export default function HeroSection() {
                   {
                     icon: Award,
                     label: 'Certifications',
-                    desc: 'Crestron & Extron authorized programmer',
+                    desc: 'Brähler certified partner',
                     color: '#7CB518',
                   },
                   {
@@ -116,7 +116,7 @@ export default function HeroSection() {
 
               <div className="mt-8 pt-6 border-t border-[#1A1A1A]">
                 <p className="text-[#6B6B6B] text-xs text-center">
-                  15+ years · 200+ projects · 14 specializations
+                  5+ Years · 20+ Projects · 5+ Specializations
                 </p>
               </div>
             </div>
